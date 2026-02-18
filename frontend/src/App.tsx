@@ -9,9 +9,9 @@ const AppContent: React.FC = () => {
   const { puzzleType } = useSettings();
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="app-container">
       <ConfigurationPanel />
-      <div style={{ marginLeft: '300px', width: '100%', padding: '20px', minHeight: '100vh', backgroundColor: '#eee' }}>
+      <div className="content-area">
         <PrintLayout>
           {puzzleType === 'math' ? (
             <MathSheet />

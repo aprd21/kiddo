@@ -20,13 +20,13 @@ const ColorLetter: React.FC<{ char: string }> = ({ char }) => {
 };
 
 export const EnglishSheet: React.FC = () => {
-    const { englishLevel, englishMode, layout, advanced } = useSettings();
+    const { englishLevel, englishMode, layout, advanced, generationTrigger } = useSettings();
     const [problems, setProblems] = useState<EnglishProblem[]>([]);
 
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
         setProblems(generateEnglishProblems(englishLevel, totalCount));
-    }, [englishLevel, layout.rows, layout.cols, layout.pages]);
+    }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages]);
 
     const { colorKey, applyColorToPuzzle } = advanced;
     const itemsPerPage = layout.rows * layout.cols;

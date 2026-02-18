@@ -31,13 +31,14 @@ const ColorDigit: React.FC<{ value: string | number }> = ({ value }) => {
 };
 
 export const MathSheet: React.FC = () => {
-    const { mathLevel, layout, advanced } = useSettings();
+    const { mathLevel, layout, advanced, generationTrigger } = useSettings();
     const [problems, setProblems] = useState<MathProblem[]>([]);
 
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
         setProblems(generateMathProblems(mathLevel, totalCount, advanced.mixedDifficulty));
-    }, [mathLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [generationTrigger, mathLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty]);
 
     const { colorKey, applyColorToPuzzle } = advanced;
 
@@ -94,6 +95,7 @@ export const MathSheet: React.FC = () => {
                                 </div>
                                 <div className={styles.line}></div>
                                 <div className={styles.answerBox}></div>
+                                <div className={styles.line}></div>
                             </div>
                         </div>
                     ))}

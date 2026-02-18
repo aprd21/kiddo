@@ -9,7 +9,8 @@ export const ConfigurationPanel: React.FC = () => {
         englishLevel, setEnglishLevel,
         englishMode, setEnglishMode,
         layout, setLayout,
-        advanced, setAdvanced
+        advanced, setAdvanced,
+        generatePuzzles
     } = useSettings();
 
     const handleLayoutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -180,6 +181,8 @@ export const ConfigurationPanel: React.FC = () => {
             </div>
 
             <div className={styles.printSection}>
+                <button onClick={generatePuzzles} className={`${styles.printButton} ${styles.generateButton}`}>Generate New Puzzles</button>
+                <div style={{ height: '10px' }}></div>
                 <button onClick={() => window.print()} className={styles.printButton}>Print Puzzles</button>
             </div>
         </div>

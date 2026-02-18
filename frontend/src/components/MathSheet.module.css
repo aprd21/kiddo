@@ -7,8 +7,11 @@
 
 .pageBreak {
     break-before: page;
-    margin-top: 2cm;
-    /* Spacing for screen view, print handles break-before */
+    margin-top: 20px;
+    /* Reduced from 2cm to avoid huge gaps on screen */
+    border-top: 1px dashed #ccc;
+    /* Visual separator on screen */
+    padding-top: 20px;
 }
 
 .legend {
@@ -66,7 +69,7 @@
 }
 
 .answerBox {
-    height: 1.2em;
+    height: 2rem;
     /* Space for writing answer */
     margin-top: 5px;
 }

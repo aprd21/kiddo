@@ -9,6 +9,10 @@
     padding: 1cm;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    color: black;
+    /* Ensure text is visible against white background */
 }
 
 @media print {
@@ -19,5 +23,7 @@
         margin: 0;
         padding: 0;
         /* Let page margin handle it or keep minimal */
+        min-height: auto;
+        display: block;
     }
 }

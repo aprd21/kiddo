@@ -75,3 +75,11 @@
 .printButton:hover {
     background-color: #45a049;
 }
+
+.generateButton {
+    background-color: #2196F3;
+}
+
+.generateButton:hover {
+    background-color: #1976D2;
+}

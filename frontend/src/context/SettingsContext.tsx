@@ -28,6 +28,8 @@ interface SettingsContextType {
     setLayout: (layout: LayoutConfig) => void;
     advanced: AdvancedSettings;
     setAdvanced: (settings: AdvancedSettings) => void;
+    generationTrigger: number;
+    generatePuzzles: () => void;
 }
 
 const defaultSettings: SettingsContextType = {
@@ -48,6 +50,8 @@ const defaultSettings: SettingsContextType = {
         applyColorToPuzzle: false,
     },
     setAdvanced: () => { },
+    generationTrigger: 0,
+    generatePuzzles: () => { },
 };
 
 const SettingsContext = createContext<SettingsContextType>(defaultSettings);
@@ -58,12 +62,15 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     const [englishLevel, setEnglishLevel] = useState(1);
     const [englishMode, setEnglishMode] = useState<'reading' | 'spelling'>('spelling');
     const [layout, setLayout] = useState<LayoutConfig>({ rows: 5, cols: 3, pages: 1 });
+    const [generationTrigger, setGenerationTrigger] = useState(0);
     const [advanced, setAdvanced] = useState<AdvancedSettings>({
         mixedDifficulty: false,
         theme: 'standard',
         colorKey: false,
         applyColorToPuzzle: false,
     });
+
+    const generatePuzzles = () => setGenerationTrigger(prev => prev + 1);
 
     return (
         <SettingsContext.Provider
@@ -80,6 +87,8 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
                 setLayout,
                 advanced,
                 setAdvanced,
+                generationTrigger,
+                generatePuzzles,
             }}
         >
             {children}

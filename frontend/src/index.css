@@ -1,3 +1,12 @@
+/* Global styles for App layout structure */
+@media print {
+
+  /* Override inline styles or global layout for print */
+  body {
+    background: white;
+  }
+}
+
 :root {
   font-family: 'Comic Neue', 'Fredoka One', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -32,12 +41,55 @@ body {
   body {
     background: white;
     color: black;
-    display: block; 
+    display: block;
   }
+
   @page {
-    margin: 0.5cm;
+    margin: 10mm;
+    /* Ensure consistent print margins */
   }
+
   .no-print {
     display: none !important;
+  }
+
+  .app-container {
+    display: block !important;
+  }
+
+  .content-area {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background: white !important;
+  }
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+}
+
+.content-area {
+  margin-left: 300px;
+  /* Sidebar width */
+  width: calc(100% - 300px);
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #eee;
+  box-sizing: border-box;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .content-area {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 60px;
+    /* Space for mobile header/nav if we had one */
   }
 }
