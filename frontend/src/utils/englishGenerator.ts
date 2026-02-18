@@ -23,16 +23,31 @@ const getRandomWord = (list: string[]) => {
     return list[getRandomInt(0, list.length - 1)];
 };
 
-export const generateEnglishProblems = (level: number, count: number): EnglishProblem[] => {
+export const generateEnglishProblems = (
+    level: number,
+    count: number,
+    mixed: boolean = false,
+    mixRatio: number = 20
+): EnglishProblem[] => {
     const problems: EnglishProblem[] = [];
 
     for (let i = 0; i < count; i++) {
         const id = Math.random().toString(36).substr(2, 9);
+
+        // Determine effective level
+        let effectiveLevel = level;
+        if (mixed && level > 1) {
+            // Convert percentage to decimal
+            if (Math.random() < (mixRatio / 100)) {
+                effectiveLevel = getRandomInt(1, level - 1);
+            }
+        }
+
         let word = '';
         let maskedWord = '';
         let missingIndices: number[] = [];
 
-        switch (level) {
+        switch (effectiveLevel) {
             case 1:
                 // 3-letter, First or Last missing
                 word = getRandomWord(threeLetterWords);

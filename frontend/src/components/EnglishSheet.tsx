@@ -33,8 +33,8 @@ export const EnglishSheet: React.FC = () => {
     // Regenerate problems when relevant settings change
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
-        setProblems(generateEnglishProblems(englishLevel, totalCount));
-    }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages]);
+        setProblems(generateEnglishProblems(englishLevel, totalCount, advanced.mixedDifficulty, advanced.mixedDifficultyRatio));
+    }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty, advanced.mixedDifficultyRatio]);
 
     const { colorKey, applyColorToPuzzle } = advanced;
     const itemsPerPage = layout.rows * layout.cols;
@@ -48,8 +48,11 @@ export const EnglishSheet: React.FC = () => {
     for (let p = 0; p < layout.pages; p++) {
         const pageProblems = problems.slice(p * itemsPerPage, (p + 1) * itemsPerPage);
 
+        // Determine theme class
+        const themeClass = styles[`theme-${advanced.theme}`] || styles['theme-standard'];
+
         pages.push(
-            <div key={p} className={`${styles.page} ${p > 0 ? styles.pageBreak : ''}`}>
+            <div key={p} className={`${styles.page} ${themeClass} ${p > 0 ? styles.pageBreak : ''}`}>
                 {colorKey && (
                     <div className={styles.legend}>
                         <strong>Color Key: </strong>
