@@ -20,7 +20,8 @@ export interface LayoutConfig {
 
 // Advanced options for customization
 export interface AdvancedSettings {
-    mixedDifficulty: boolean; // If true, mixes in 20% of problems from lower levels
+    mixedDifficulty: boolean; // If true, mixes in problems from lower levels
+    mixedDifficultyRatio: number; // Percentage (0-100) of lower level problems to include
     theme: 'standard' | 'space' | 'animals' | 'underwater'; // Visual theme (currently standard is implemented)
     colorKey: boolean; // Toggle for the color legend
     applyColorToPuzzle: boolean; // Whether the puzzle text itself should be colored
@@ -68,6 +69,7 @@ const defaultSettings: SettingsContextType = {
     setLayout: () => { },
     advanced: {
         mixedDifficulty: false,
+        mixedDifficultyRatio: 20,
         theme: 'standard',
         colorKey: false,
         applyColorToPuzzle: false,
@@ -88,6 +90,7 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
     const [generationTrigger, setGenerationTrigger] = useState(0);
     const [advanced, setAdvanced] = useState<AdvancedSettings>({
         mixedDifficulty: false,
+        mixedDifficultyRatio: 20,
         theme: 'standard',
         colorKey: false,
         applyColorToPuzzle: false,

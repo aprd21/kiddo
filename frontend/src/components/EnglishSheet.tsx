@@ -13,8 +13,8 @@ import styles from './EnglishSheet.module.css';
 
 // Default Color Map for letters
 // Coloring helps with visual tracking and engagement
-// Palette: Red, Green, Blue, Orange, Black, Yellow
-const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF991C', '#000000', '#FFFF00'];
+// Palette: Red, Green, Blue, Orange, Black
+const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF991C', '#000000'];
 const letterColors: Record<string, string> = {};
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 alphabet.split('').forEach((char, index) => {

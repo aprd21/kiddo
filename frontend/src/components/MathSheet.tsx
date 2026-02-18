@@ -15,18 +15,18 @@ import styles from './MathSheet.module.css';
 // Visual aid to help kids recognize patterns
 // Map digits to specific colors for the "Color Key" feature
 // Visual aid to help kids recognize patterns
-// Restricted palette: Red, Green, Blue, Orange, Black, Yellow
+// Restricted palette: Red, Green, Blue, Orange, Black
 const digitColors: Record<string, string> = {
     '0': '#FF0000', // Red
     '1': '#00FF00', // Green
     '2': '#0000FF', // Blue
     '3': '#FF991C', // Orange
     '4': '#000000', // Black
-    '5': '#FFFF00', // Yellow
-    '6': '#FF0000', // Red
-    '7': '#00FF00', // Green
-    '8': '#0000FF', // Blue
-    '9': '#FF991C', // Orange
+    '5': '#FF0000', // Red
+    '6': '#00FF00', // Green
+    '7': '#0000FF', // Blue
+    '8': '#FF991C', // Orange
+    '9': '#000000', // Black
 };
 
 /**
@@ -54,9 +54,9 @@ export const MathSheet: React.FC = () => {
     // Effect to regenerate problems when settings or the trigger change
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
-        setProblems(generateMathProblems(mathLevel, totalCount, advanced.mixedDifficulty));
+        setProblems(generateMathProblems(mathLevel, totalCount, advanced.mixedDifficulty, advanced.mixedDifficultyRatio));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [generationTrigger, mathLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty]);
+    }, [generationTrigger, mathLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty, advanced.mixedDifficultyRatio]);
 
     const { colorKey, applyColorToPuzzle } = advanced;
     const itemsPerPage = layout.rows * layout.cols;

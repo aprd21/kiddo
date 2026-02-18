@@ -156,8 +156,25 @@ export const ConfigurationPanel: React.FC = () => {
                         type="checkbox"
                         checked={advanced.mixedDifficulty}
                         onChange={() => toggleAdvanced('mixedDifficulty')}
-                    /> Mixed Difficulty (20% lower levels)
+                    /> Mixed Difficulty
                 </label>
+
+                {advanced.mixedDifficulty && (
+                    <div className={styles.indent} style={{ marginLeft: '20px', marginBottom: '10px' }}>
+                        <div className={styles.row}>
+                            <label style={{ fontSize: '0.9em' }}>Ratio (%):</label>
+                            <input
+                                type="number"
+                                className={styles.inputSmall}
+                                min="0"
+                                max="100"
+                                value={advanced.mixedDifficultyRatio}
+                                onChange={(e) => setAdvanced({ ...advanced, mixedDifficultyRatio: Math.max(0, Math.min(100, parseInt(e.target.value) || 0)) })}
+                            />
+                        </div>
+                        <div className={styles.description}>Percentage of easier problems</div>
+                    </div>
+                )}
 
                 <label className={styles.checkbox}>
                     <input

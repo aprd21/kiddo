@@ -12,19 +12,19 @@ const getRandomInt = (min: number, max: number) => {
 
 /**
  * Generates an array of math problems.
- * @param level The difficulty level (1-6)
- * @param count Total number of problems to generate
- * @param mixed If true, introduces a 20% chance for problems to be one level easier (min level 1)
+ * @param mixed If true, introduces a chance for problems to be one level easier
+ * @param mixRatio The percentage (0-100) of problems that should be from the lower level
  */
-export const generateMathProblems = (level: number, count: number, mixed: boolean = false): MathProblem[] => {
+export const generateMathProblems = (level: number, count: number, mixed: boolean = false, mixRatio: number = 20): MathProblem[] => {
     const problems: MathProblem[] = [];
 
     for (let i = 0; i < count; i++) {
         // Determine effective level for this problem
         let effectiveLevel = level;
         if (mixed && level > 1) {
-            if (Math.random() < 0.2) {
-                // 20% chance to pick a lower level (level - 1)
+            // Convert percentage to decimal probability
+            if (Math.random() < (mixRatio / 100)) {
+                // Chance to pick a lower level (level - 1)
                 effectiveLevel = getRandomInt(1, level - 1);
             }
         }
