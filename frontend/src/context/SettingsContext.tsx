@@ -25,7 +25,14 @@ export interface AdvancedSettings {
     theme: 'standard' | 'space' | 'animals' | 'underwater'; // Visual theme (currently standard is implemented)
     colorKey: boolean; // Toggle for the color legend
     applyColorToPuzzle: boolean; // Whether the puzzle text itself should be colored
+    showImages: boolean; // Whether to show images/icons for words
 }
+
+// ... (omitted for brevity)
+
+
+
+
 
 // The shape of our Context data
 interface SettingsContextType {
@@ -73,6 +80,7 @@ const defaultSettings: SettingsContextType = {
         theme: 'standard',
         colorKey: false,
         applyColorToPuzzle: false,
+        showImages: false,
     },
     setAdvanced: () => { },
     generationTrigger: 0,
@@ -94,7 +102,9 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
         theme: 'standard',
         colorKey: false,
         applyColorToPuzzle: false,
+        showImages: false,
     });
+
 
     const generatePuzzles = () => setGenerationTrigger(prev => prev + 1);
 

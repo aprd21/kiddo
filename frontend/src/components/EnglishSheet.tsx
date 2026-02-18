@@ -10,6 +10,8 @@ import React, { useEffect, useState } from 'react';
 import { useSettings } from '../context/SettingsContext';
 import { generateEnglishProblems, type EnglishProblem } from '../utils/englishGenerator';
 import styles from './EnglishSheet.module.css';
+import WordIconMap from '../data/wordIcons';
+
 
 // Default Color Map for letters
 // Coloring helps with visual tracking and engagement
@@ -25,6 +27,8 @@ const ColorLetter: React.FC<{ value: string }> = ({ value }) => {
     return <span style={{ color: letterColors[value.toUpperCase()] || 'inherit' }}>{value}</span>;
 }
 
+
+
 export const EnglishSheet: React.FC = () => {
     // Access settings context
     const { englishLevel, englishMode, layout, advanced, generationTrigger } = useSettings();
@@ -33,10 +37,11 @@ export const EnglishSheet: React.FC = () => {
     // Regenerate problems when relevant settings change
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
-        setProblems(generateEnglishProblems(englishLevel, totalCount, advanced.mixedDifficulty, advanced.mixedDifficultyRatio));
-    }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty, advanced.mixedDifficultyRatio]);
+        // Pass the selected theme to the generator
+        setProblems(generateEnglishProblems(englishLevel, totalCount, advanced.mixedDifficulty, advanced.mixedDifficultyRatio, advanced.theme, advanced.showImages));
+    }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty, advanced.mixedDifficultyRatio, advanced.theme]);
 
-    const { colorKey, applyColorToPuzzle } = advanced;
+    const { colorKey, applyColorToPuzzle, showImages } = advanced;
     const itemsPerPage = layout.rows * layout.cols;
     const pages = [];
 
@@ -72,28 +77,37 @@ export const EnglishSheet: React.FC = () => {
                         gridTemplateRows: `repeat(${layout.rows}, 1fr)`
                     }}
                 >
-                    {pageProblems.map((problem) => (
-                        <div key={problem.id} className={styles.problemContainer}>
-                            <div className={styles.wordBox} style={{ fontSize: `${dynamicFontSize}rem` }}>
-                                {englishMode === 'reading' ? (
-                                    // Reading Mode: Show full word
-                                    <span className={styles.word}>
-                                        {problem.word.split('').map((char, i) => (
-                                            applyColorToPuzzle && colorKey ? <ColorLetter key={i} value={char} /> : char
-                                        ))}
-                                    </span>
-                                ) : (
-                                    // Spelling Mode: Show masked word
-                                    <span className={styles.word}>
-                                        {problem.maskedWord.split(' ').map((char, i) => {
-                                            if (char === '_') return <span key={i} className={styles.blank}>_</span>;
-                                            return applyColorToPuzzle && colorKey ? <ColorLetter key={i} value={char} /> : char;
-                                        })}
-                                    </span>
+                    {pageProblems.map((problem) => {
+                        const Icon = showImages ? WordIconMap[problem.word.toUpperCase()] : null;
+
+                        return (
+                            <div key={problem.id} className={styles.problemContainer} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                                {Icon && (
+                                    <div className={styles.iconContainer} style={{ marginBottom: '0.5rem' }}>
+                                        <Icon size={48} />
+                                    </div>
                                 )}
+                                <div className={styles.wordBox} style={{ fontSize: `${dynamicFontSize}rem` }}>
+                                    {englishMode === 'reading' ? (
+                                        // Reading Mode: Show full word
+                                        <span className={styles.word}>
+                                            {problem.word.split('').map((char, i) => (
+                                                applyColorToPuzzle && colorKey ? <ColorLetter key={i} value={char} /> : char
+                                            ))}
+                                        </span>
+                                    ) : (
+                                        // Spelling Mode: Show masked word
+                                        <span className={styles.word}>
+                                            {problem.maskedWord.split(' ').map((char, i) => {
+                                                if (char === '_') return <span key={i} className={styles.blank}>_</span>;
+                                                return applyColorToPuzzle && colorKey ? <ColorLetter key={i} value={char} /> : char;
+                                            })}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        )
+                    })}
                 </div>
             </div>
         );
@@ -101,3 +115,4 @@ export const EnglishSheet: React.FC = () => {
 
     return <>{pages}</>;
 };
+

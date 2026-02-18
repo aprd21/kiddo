@@ -1,12 +1,5 @@
-/**
- * englishGenerator.ts
- * 
- * Logic for generating English spelling and reading problems.
- * Uses a curated list of 3 and 4 letter words.
- * Implements masking logic (removing letters) based on difficulty levels.
- */
-
-import { threeLetterWords, fourLetterWords } from '../data/wordList';
+import { threeLetterWords, fourLetterWords, themeWords } from '../data/wordList';
+import { availableIcons } from '../data/wordIcons';
 
 export interface EnglishProblem {
     word: string; // The full word (e.g., "CAT")
@@ -19,16 +12,43 @@ const getRandomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const getRandomWord = (list: string[]) => {
-    return list[getRandomInt(0, list.length - 1)];
+const getRandomWord = (list: string[], theme: string = 'standard', preferImages: boolean = false) => {
+    let candidateList = list;
+
+    // Filter by theme if applicable
+    if (theme !== 'standard' && themeWords[theme]) {
+        const themeSet = new Set(themeWords[theme]);
+        const validThemeWords = list.filter(w => themeSet.has(w));
+
+        if (validThemeWords.length > 0) {
+            // 80% chance to pick a theme word if available
+            if (Math.random() < 0.8) {
+                candidateList = validThemeWords;
+            }
+        }
+    }
+
+    // Filter by image availability if requested
+    if (preferImages) {
+        const wordsWithImages = candidateList.filter(w => availableIcons.has(w));
+        // If we have words with images, use them 100% of the time to maximize visual coverage
+        if (wordsWithImages.length > 0) {
+            candidateList = wordsWithImages;
+        }
+    }
+
+    return candidateList[getRandomInt(0, candidateList.length - 1)];
 };
 
 export const generateEnglishProblems = (
     level: number,
     count: number,
     mixed: boolean = false,
-    mixRatio: number = 20
+    mixRatio: number = 20,
+    theme: string = 'standard',
+    preferImages: boolean = false
 ): EnglishProblem[] => {
+
     const problems: EnglishProblem[] = [];
 
     for (let i = 0; i < count; i++) {
@@ -50,7 +70,7 @@ export const generateEnglishProblems = (
         switch (effectiveLevel) {
             case 1:
                 // 3-letter, First or Last missing
-                word = getRandomWord(threeLetterWords);
+                word = getRandomWord(threeLetterWords, theme, preferImages);
                 const missingFirst = Math.random() < 0.5;
                 if (missingFirst) {
                     missingIndices = [0];
@@ -63,14 +83,14 @@ export const generateEnglishProblems = (
 
             case 2:
                 // 3-letter, Middle missing
-                word = getRandomWord(threeLetterWords);
+                word = getRandomWord(threeLetterWords, theme, preferImages);
                 missingIndices = [1];
                 maskedWord = `${word[0]} _ ${word[2]}`;
                 break;
 
             case 3:
                 // 4-letter, First or Last missing
-                word = getRandomWord(fourLetterWords);
+                word = getRandomWord(fourLetterWords, theme, preferImages);
                 const missingFirst4 = Math.random() < 0.5;
                 if (missingFirst4) {
                     missingIndices = [0];
@@ -83,7 +103,7 @@ export const generateEnglishProblems = (
 
             case 4:
                 // 4-letter, Random single letter missing
-                word = getRandomWord(fourLetterWords);
+                word = getRandomWord(fourLetterWords, theme, preferImages);
                 const idx = getRandomInt(0, 3);
                 missingIndices = [idx];
                 const chars = word.split('');
@@ -102,3 +122,4 @@ export const generateEnglishProblems = (
 
     return problems;
 };
+

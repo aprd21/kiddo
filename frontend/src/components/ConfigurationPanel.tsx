@@ -206,7 +206,16 @@ export const ConfigurationPanel: React.FC = () => {
                         <option value="underwater">Underwater</option>
                     </select>
                 </div>
+
+                <label className={styles.checkbox}>
+                    <input
+                        type="checkbox"
+                        checked={advanced.showImages}
+                        onChange={() => toggleAdvanced('showImages')}
+                    /> Show Images
+                </label>
             </div>
+
 
             <div className={styles.printSection}>
                 <button onClick={generatePuzzles} className={`${styles.printButton} ${styles.generateButton}`}>Generate New Puzzles</button>
