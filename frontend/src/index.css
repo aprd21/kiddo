@@ -45,8 +45,8 @@ body {
   }
 
   @page {
-    margin: 5mm;
-    /* Minimal margins to maximize print area */
+    margin: 0;
+    /* Reset defaults to maximize print area */
     size: auto;
     /* Auto size */
   }

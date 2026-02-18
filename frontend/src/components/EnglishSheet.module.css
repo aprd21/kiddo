@@ -1,24 +1,28 @@
 .page {
     width: 100%;
-    min-height: 297mm;
-    /* Force A4 height so flex/grid children expand */
+    height: 275mm;
+    /* Safe printable height (A4 - margins) */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     /* Ensure padding doesn't add to height */
+    padding: 0 10mm;
+    /* Horizontal padding only */
 }
 
 .pageBreak {
     break-before: page;
-    margin-top: 2cm;
 }
 
 .legend {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    /* Reduced margin */
     font-size: 0.8em;
     text-align: center;
     border-bottom: 2px dashed #ccc;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
+    /* Reduced padding */
 }
 
 .legendItems {
@@ -31,9 +35,9 @@
     display: grid;
     flex: 1;
     width: 100%;
-    gap: 1cm;
-    /* Increased gap */
-    align-content: start;
+    gap: 0.5cm;
+    /* Reduced gap to ensure fit */
+    align-content: stretch;
 }
 
 .problemContainer {
