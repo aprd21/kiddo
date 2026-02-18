@@ -90,7 +90,7 @@ export const ConfigurationPanel: React.FC = () => {
                                 </select>
                             </div>
 
-                            {englishMode === 'spelling' && (
+                            {englishMode === 'spelling' ? (
                                 <>
                                     <div className={styles.row}>
                                         <label>Level (1-4):</label>
@@ -105,6 +105,27 @@ export const ConfigurationPanel: React.FC = () => {
                                         {englishLevel === 2 && "3-letter words (Middle missing)"}
                                         {englishLevel === 3 && "4-letter words (First/Last missing)"}
                                         {englishLevel === 4 && "4-letter words (Random missing)"}
+                                    </div>
+                                </>
+                            ) : (
+                                <>
+                                    <div className={styles.row}>
+                                        <label>Level (1-8):</label>
+                                        <select value={englishLevel} onChange={(e) => setEnglishLevel(Number(e.target.value))}>
+                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(l => (
+                                                <option key={l} value={l}>Level {l}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className={styles.description}>
+                                        {englishLevel === 1 && "2-3 Letter Words"}
+                                        {englishLevel === 2 && "4 Letter Words"}
+                                        {englishLevel === 3 && "5 Letter Words"}
+                                        {englishLevel === 4 && "6 Letter Words"}
+                                        {englishLevel === 5 && "7 Letter Words"}
+                                        {englishLevel === 6 && "8 Letter Words"}
+                                        {englishLevel === 7 && "9 Letter Words"}
+                                        {englishLevel === 8 && "10 Letter Words"}
                                     </div>
                                 </>
                             )}

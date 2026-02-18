@@ -1,4 +1,8 @@
-import { threeLetterWords, fourLetterWords, themeWords } from '../data/wordList';
+import {
+    twoLetterWords, threeLetterWords, fourLetterWords, fiveLetterWords,
+    sixLetterWords, sevenLetterWords, eightLetterWords, nineLetterWords, tenLetterWords,
+    themeWords
+} from '../data/wordList';
 import { availableIcons } from '../data/wordIcons';
 
 export interface EnglishProblem {
@@ -43,6 +47,7 @@ const getRandomWord = (list: string[], theme: string = 'standard', preferImages:
 export const generateEnglishProblems = (
     level: number,
     count: number,
+    mode: 'reading' | 'spelling' = 'spelling',
     mixed: boolean = false,
     mixRatio: number = 20,
     theme: string = 'standard',
@@ -57,7 +62,7 @@ export const generateEnglishProblems = (
         // Determine effective level
         let effectiveLevel = level;
         if (mixed && level > 1) {
-            // Convert percentage to decimal
+            // Convert percentage to probability (0-100 -> 0.0-1.0)
             if (Math.random() < (mixRatio / 100)) {
                 effectiveLevel = getRandomInt(1, level - 1);
             }
@@ -67,54 +72,84 @@ export const generateEnglishProblems = (
         let maskedWord = '';
         let missingIndices: number[] = [];
 
-        switch (effectiveLevel) {
-            case 1:
-                // 3-letter, First or Last missing
-                word = getRandomWord(threeLetterWords, theme, preferImages);
-                const missingFirst = Math.random() < 0.5;
-                if (missingFirst) {
-                    missingIndices = [0];
-                    maskedWord = `_ ${word[1]} ${word[2]}`;
-                } else {
-                    missingIndices = [2];
-                    maskedWord = `${word[0]} ${word[1]} _`;
-                }
-                break;
+        if (mode === 'reading') {
+            // Reading Mode: Levels based on word length
+            // Level 1: 2-3 letters
+            // Level 2: 4 letters
+            // ...
+            // Level 8: 10 letters
+            let list: string[] = [];
+            switch (effectiveLevel) {
+                case 1:
+                    list = Math.random() < 0.5 ? twoLetterWords : threeLetterWords;
+                    break;
+                case 2: list = fourLetterWords; break;
+                case 3: list = fiveLetterWords; break;
+                case 4: list = sixLetterWords; break;
+                case 5: list = sevenLetterWords; break;
+                case 6: list = eightLetterWords; break;
+                case 7: list = nineLetterWords; break;
+                case 8: list = tenLetterWords; break;
+                default: list = threeLetterWords; break;
+            }
+            word = getRandomWord(list, theme, preferImages);
+            maskedWord = word.split('').join(' '); // No masking in reading mode
+            missingIndices = []; // No missing indices
+        } else {
+            // Spelling Mode: Existing logic (Levels 1-4)
+            // Note: If mixed difficulty selects a level > 4 (unlikely if max is 4), clamp it?
+            // Existing logic only handles cases 1-4.
+            const spellingLevel = Math.min(effectiveLevel, 4);
 
-            case 2:
-                // 3-letter, Middle missing
-                word = getRandomWord(threeLetterWords, theme, preferImages);
-                missingIndices = [1];
-                maskedWord = `${word[0]} _ ${word[2]}`;
-                break;
+            switch (spellingLevel) {
+                case 1:
+                    // 3-letter, First or Last missing
+                    word = getRandomWord(threeLetterWords, theme, preferImages);
+                    const missingFirst = Math.random() < 0.5;
+                    if (missingFirst) {
+                        missingIndices = [0];
+                        maskedWord = `_ ${word[1]} ${word[2]}`;
+                    } else {
+                        missingIndices = [2];
+                        maskedWord = `${word[0]} ${word[1]} _`;
+                    }
+                    break;
 
-            case 3:
-                // 4-letter, First or Last missing
-                word = getRandomWord(fourLetterWords, theme, preferImages);
-                const missingFirst4 = Math.random() < 0.5;
-                if (missingFirst4) {
-                    missingIndices = [0];
-                    maskedWord = `_ ${word[1]} ${word[2]} ${word[3]}`;
-                } else {
-                    missingIndices = [3];
-                    maskedWord = `${word[0]} ${word[1]} ${word[2]} _`;
-                }
-                break;
+                case 2:
+                    // 3-letter, Middle missing
+                    word = getRandomWord(threeLetterWords, theme, preferImages);
+                    missingIndices = [1];
+                    maskedWord = `${word[0]} _ ${word[2]}`;
+                    break;
 
-            case 4:
-                // 4-letter, Random single letter missing
-                word = getRandomWord(fourLetterWords, theme, preferImages);
-                const idx = getRandomInt(0, 3);
-                missingIndices = [idx];
-                const chars = word.split('');
-                chars[idx] = '_';
-                maskedWord = chars.join(' ');
-                break;
+                case 3:
+                    // 4-letter, First or Last missing
+                    word = getRandomWord(fourLetterWords, theme, preferImages);
+                    const missingFirst4 = Math.random() < 0.5;
+                    if (missingFirst4) {
+                        missingIndices = [0];
+                        maskedWord = `_ ${word[1]} ${word[2]} ${word[3]}`;
+                    } else {
+                        missingIndices = [3];
+                        maskedWord = `${word[0]} ${word[1]} ${word[2]} _`;
+                    }
+                    break;
 
-            default:
-                word = 'CAT';
-                maskedWord = 'C _ T';
-                missingIndices = [1];
+                case 4:
+                    // 4-letter, Random single letter missing
+                    word = getRandomWord(fourLetterWords, theme, preferImages);
+                    const idx = getRandomInt(0, 3);
+                    missingIndices = [idx];
+                    const chars = word.split('');
+                    chars[idx] = '_';
+                    maskedWord = chars.join(' ');
+                    break;
+
+                default:
+                    word = 'CAT';
+                    maskedWord = 'C _ T';
+                    missingIndices = [1];
+            }
         }
 
         problems.push({ word, maskedWord, missingIndices, id });
@@ -122,4 +157,3 @@ export const generateEnglishProblems = (
 
     return problems;
 };
-

@@ -38,7 +38,7 @@ export const EnglishSheet: React.FC = () => {
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
         // Pass the selected theme to the generator
-        setProblems(generateEnglishProblems(englishLevel, totalCount, advanced.mixedDifficulty, advanced.mixedDifficultyRatio, advanced.theme, advanced.showImages));
+        setProblems(generateEnglishProblems(englishLevel, totalCount, englishMode, advanced.mixedDifficulty, advanced.mixedDifficultyRatio, advanced.theme, advanced.showImages));
     }, [generationTrigger, englishLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty, advanced.mixedDifficultyRatio, advanced.theme]);
 
     const { colorKey, applyColorToPuzzle, showImages } = advanced;
