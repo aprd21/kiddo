@@ -1,7 +1,8 @@
 .container {
-    width: 100%;
-    /* max-width: 210mm; */
-    /* Removed to allow full screen preview */
+    width: 210mm;
+    /* Fixed A4 width */
+    max-width: 100%;
+    /* Responsive on smaller screens */
     margin: 0 auto;
     background: white;
     min-height: 297mm;
@@ -18,7 +19,8 @@
 
 @media print {
     .container {
-        width: 100%;
+        width: 210mm !important;
+        /* Force exact A4 width to match preview */
         max-width: none;
         box-shadow: none;
         margin: 0;
@@ -26,6 +28,8 @@
         /* Let page margin handle it or keep minimal */
         min-height: 100%;
         /* Ensure it fills the page */
-        display: block;
+        display: flex;
+        /* Keep flex to match screen layout behavior */
+        flex-direction: column;
     }
 }

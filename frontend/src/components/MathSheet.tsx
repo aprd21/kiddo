@@ -56,68 +56,73 @@ export const MathSheet: React.FC = () => {
     }, [generationTrigger, mathLevel, layout.rows, layout.cols, layout.pages, advanced.mixedDifficulty]);
 
     const { colorKey, applyColorToPuzzle } = advanced;
+    const itemsPerPage = layout.rows * layout.cols;
+
+    // Calculate font size based on number of columns to prevent overflow
+    const baseFontSize = 2.5;
+    const dynamicFontSize = Math.max(1, baseFontSize - (layout.cols - 3) * 0.3);
 
     const renderNumber = (num: number) => {
+        if (num === undefined) return null;
         if (colorKey && applyColorToPuzzle) {
             return <ColorDigit value={num} />;
         }
         return num;
     };
 
-    const pages = [];
-    const itemsPerPage = layout.rows * layout.cols;
+    return (
+        <>
+            {Array.from({ length: layout.pages }).map((_, p) => {
+                const pageProblems = problems.slice(p * itemsPerPage, (p + 1) * itemsPerPage);
 
-    for (let p = 0; p < layout.pages; p++) {
-        const pageProblems = problems.slice(p * itemsPerPage, (p + 1) * itemsPerPage);
-
-        pages.push(
-            <div key={p} className={`${styles.page} ${p > 0 ? styles.pageBreak : ''}`}>
-                {colorKey && (
-                    <div className={styles.legend}>
-                        <strong>Color Key: </strong>
-                        {Object.entries(digitColors).map(([digit, color]) => (
-                            <span key={digit} style={{ marginRight: '10px' }}>
-                                <span style={{ color, fontWeight: 'bold' }}>{digit}</span>
-                            </span>
-                        ))}
-                    </div>
-                )}
-
-                <div
-                    className={styles.grid}
-                    style={{
-                        gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
-                        gridTemplateRows: `repeat(${layout.rows}, 1fr)`
-                    }}
-                >
-                    {pageProblems.map((problem) => (
-                        <div key={problem.id} className={styles.problemContainer}>
-                            <div className={styles.problemBox}>
-                                <div className={styles.row}>
-                                    {/* Spacing for carry if needed later, or cleaner alignment */}
-                                    <span className={styles.number}>{renderNumber(problem.top)}</span>
-                                </div>
-                                {problem.third !== undefined && (
-                                    <div className={styles.row}>
-                                        <span className={styles.number}>{renderNumber(problem.bottom)}</span>
-                                    </div>
-                                )}
-                                <div className={`${styles.row} ${styles.bottomRow}`}>
-                                    <span className={styles.operator}>+</span>
-                                    <span className={styles.number}>
-                                        {renderNumber(problem.third !== undefined ? problem.third : problem.bottom)}
+                return (
+                    <div key={p} className={`${styles.page} ${p > 0 ? styles.pageBreak : ''}`}>
+                        {colorKey && (
+                            <div className={styles.legend}>
+                                <strong>Color Key: </strong>
+                                {Object.entries(digitColors).map(([digit, color]) => (
+                                    <span key={digit} style={{ marginRight: '10px' }}>
+                                        <span style={{ color, fontWeight: 'bold' }}>{digit}</span>
                                     </span>
-                                </div>
-                                <div className={styles.line}></div>
-                                <div className={styles.answerBox}></div>
-                                <div className={styles.line}></div>
+                                ))}
                             </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-    }
+                        )}
 
-    return <>{pages}</>;
+                        <div
+                            className={styles.grid}
+                            style={{
+                                gridTemplateColumns: `repeat(${layout.cols}, 1fr)`,
+                                gridTemplateRows: `repeat(${layout.rows}, 1fr)`
+                            }}
+                        >
+                            {pageProblems.map((problem) => (
+                                <div key={problem.id} className={styles.problemContainer}>
+                                    <div
+                                        className={styles.problemBox}
+                                        style={{ fontSize: `${dynamicFontSize}rem` }}
+                                    >
+                                        <div className={styles.row}>
+                                            <span className={styles.number}>{renderNumber(problem.top)}</span>
+                                        </div>
+                                        <div className={`${styles.row} ${styles.bottomRow}`}>
+                                            <span className={styles.operator}>{problem.operator}</span>
+                                            <span className={styles.number}>{renderNumber(problem.bottom)}</span>
+                                        </div>
+                                        {problem.third !== undefined && (
+                                            <div className={styles.row} style={{ marginTop: '-0.2em' }}>
+                                                <span className={styles.number}>{renderNumber(problem.third)}</span>
+                                            </div>
+                                        )}
+                                        <div className={styles.line}></div>
+                                        <div className={styles.answerBox}></div>
+                                        <div className={styles.line}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+            })}
+        </>
+    );
 };

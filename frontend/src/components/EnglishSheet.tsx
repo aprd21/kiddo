@@ -42,6 +42,11 @@ export const EnglishSheet: React.FC = () => {
     const itemsPerPage = layout.rows * layout.cols;
     const pages = [];
 
+    // Calculate dynamic font size based on column count
+    // Base 2.5rem, decreases as columns increase
+    const baseFontSize = 2.5;
+    const dynamicFontSize = Math.max(1, baseFontSize - (layout.cols - 2) * 0.4);
+
     for (let p = 0; p < layout.pages; p++) {
         const pageProblems = problems.slice(p * itemsPerPage, (p + 1) * itemsPerPage);
 
@@ -68,7 +73,7 @@ export const EnglishSheet: React.FC = () => {
                 >
                     {pageProblems.map((problem) => (
                         <div key={problem.id} className={styles.problemContainer}>
-                            <div className={styles.wordBox}>
+                            <div className={styles.wordBox} style={{ fontSize: `${dynamicFontSize}rem` }}>
                                 {englishMode === 'reading' ? (
                                     // Reading Mode: Show full word
                                     <span className={styles.word}>

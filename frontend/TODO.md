@@ -1,0 +1,1 @@
+Colors: Use only red, green, blue, orange, black, yellow for color coding
