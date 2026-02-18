@@ -1,8 +1,17 @@
+/**
+ * ConfigurationPanel.tsx
+ * 
+ * The sidebar interface that allows users to configure the puzzle settings.
+ * Updates the global SettingsContext.
+ * Automatically hidden when printing.
+ */
+
 import React from 'react';
 import { useSettings } from '../context/SettingsContext';
 import styles from './ConfigurationPanel.module.css';
 
 export const ConfigurationPanel: React.FC = () => {
+    // Destructure all setters and values from context
     const {
         puzzleType, setPuzzleType,
         mathLevel, setMathLevel,
@@ -13,11 +22,13 @@ export const ConfigurationPanel: React.FC = () => {
         generatePuzzles
     } = useSettings();
 
+    // Handler for numeric layout inputs (rows/cols/pages)
     const handleLayoutChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setLayout({ ...layout, [name]: parseInt(value) || 0 });
     };
 
+    // Generic toggle for boolean advanced settings
     const toggleAdvanced = (field: keyof typeof advanced) => {
         setAdvanced({ ...advanced, [field]: !advanced[field] });
     };

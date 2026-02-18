@@ -1,9 +1,18 @@
+/**
+ * MathSheet.tsx
+ * 
+ * Component responsible for rendering the printable Math worksheet.
+ * Fetches generated problems and displays them in a grid.
+ * Handles pagination and layout based on SettingsContext.
+ */
+
 import React, { useEffect, useState } from 'react';
 import { useSettings } from '../context/SettingsContext';
 import { generateMathProblems, type MathProblem } from '../utils/mathGenerator';
 import styles from './MathSheet.module.css';
 
-// Default Color Map
+// Map digits to specific colors for the "Color Key" feature
+// Visual aid to help kids recognize patterns
 const digitColors: Record<string, string> = {
     '0': '#7f8c8d', // Gray
     '1': '#2980b9', // Blue
@@ -17,6 +26,10 @@ const digitColors: Record<string, string> = {
     '9': '#82ccdd', // Lime-Blueish
 };
 
+/**
+ * Helper component to render a number where each digit is colored
+ * according to the digitColors map.
+ */
 const ColorDigit: React.FC<{ value: string | number }> = ({ value }) => {
     const str = String(value);
     return (
@@ -31,9 +44,11 @@ const ColorDigit: React.FC<{ value: string | number }> = ({ value }) => {
 };
 
 export const MathSheet: React.FC = () => {
+    // Access global settings
     const { mathLevel, layout, advanced, generationTrigger } = useSettings();
     const [problems, setProblems] = useState<MathProblem[]>([]);
 
+    // Effect to regenerate problems when settings or the trigger change
     useEffect(() => {
         const totalCount = layout.rows * layout.cols * layout.pages;
         setProblems(generateMathProblems(mathLevel, totalCount, advanced.mixedDifficulty));

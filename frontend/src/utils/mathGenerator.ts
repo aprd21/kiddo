@@ -1,15 +1,21 @@
 export interface MathProblem {
-    top: number;
-    bottom: number;
-    third?: number; // For level 6 (adding 3 numbers)
-    operation: '+';
-    id: string;
+    id: string; // Unique ID for React keys
+    top: number; // Top operand
+    bottom: number; // Bottom operand
+    operator: '+'; // Currently only addition is supported
+    third?: number; // Optional third operand for Level 6
 }
 
 const getRandomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+/**
+ * Generates an array of math problems.
+ * @param level The difficulty level (1-6)
+ * @param count Total number of problems to generate
+ * @param mixed If true, introduces a 20% chance for problems to be one level easier (min level 1)
+ */
 export const generateMathProblems = (level: number, count: number, mixed: boolean = false): MathProblem[] => {
     const problems: MathProblem[] = [];
 
@@ -18,7 +24,7 @@ export const generateMathProblems = (level: number, count: number, mixed: boolea
         let effectiveLevel = level;
         if (mixed && level > 1) {
             if (Math.random() < 0.2) {
-                // 20% chance to pick a lower level
+                // 20% chance to pick a lower level (level - 1)
                 effectiveLevel = getRandomInt(1, level - 1);
             }
         }
@@ -29,16 +35,22 @@ export const generateMathProblems = (level: number, count: number, mixed: boolea
     return problems;
 };
 
+/**
+ * Generates a single math problem based on the specified difficulty level.
+ * @param level The difficulty level (1-6)
+ * @returns A MathProblem object
+ */
 const generateSingleProblem = (level: number): MathProblem => {
     const id = Math.random().toString(36).substr(2, 9);
 
     switch (level) {
         case 1:
-            // Sums <= 18 (Single digits)
+            // Level 1: Sums <= 18 (Single digits)
+            // Generates two random single-digit numbers (1-9).
             return {
                 top: getRandomInt(1, 9),
                 bottom: getRandomInt(1, 9),
-                operation: '+',
+                operator: '+',
                 id
             };
 
@@ -52,7 +64,7 @@ const generateSingleProblem = (level: number): MathProblem => {
             return {
                 top: topTen2 * 10 + topUnit2,
                 bottom: bottomTen2 * 10 + bottomUnit2,
-                operation: '+',
+                operator: '+',
                 id
             };
 
@@ -69,7 +81,7 @@ const generateSingleProblem = (level: number): MathProblem => {
             return {
                 top: tT3 * 10 + tU3,
                 bottom: bT3 * 10 + bU3,
-                operation: '+',
+                operator: '+',
                 id
             };
 
@@ -81,7 +93,7 @@ const generateSingleProblem = (level: number): MathProblem => {
             return {
                 top: tH4 * 100 + tT4 * 10 + tU4,
                 bottom: bH4 * 100 + bT4 * 10 + bU4,
-                operation: '+',
+                operator: '+',
                 id
             };
 
@@ -90,7 +102,7 @@ const generateSingleProblem = (level: number): MathProblem => {
             return {
                 top: getRandomInt(100, 899),
                 bottom: getRandomInt(100, 899),
-                operation: '+',
+                operator: '+',
                 id
             };
 
@@ -102,11 +114,11 @@ const generateSingleProblem = (level: number): MathProblem => {
                 top: getRandomInt(10, 99),
                 bottom: getRandomInt(10, 99),
                 third: getRandomInt(10, 99),
-                operation: '+',
+                operator: '+',
                 id
             };
 
         default:
-            return { top: 1, bottom: 1, operation: '+', id };
+            return { top: 1, bottom: 1, operator: '+', id };
     }
 };

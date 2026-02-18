@@ -1,10 +1,18 @@
+/**
+ * englishGenerator.ts
+ * 
+ * Logic for generating English spelling and reading problems.
+ * Uses a curated list of 3 and 4 letter words.
+ * Implements masking logic (removing letters) based on difficulty levels.
+ */
+
 import { threeLetterWords, fourLetterWords } from '../data/wordList';
 
 export interface EnglishProblem {
-    word: string;
-    maskedWord: string; // e.g., "C _ T"
-    missingIndices: number[];
-    id: string;
+    word: string; // The full word (e.g., "CAT")
+    maskedWord: string; // The word with missing letters (e.g., "C _ T")
+    missingIndices: number[]; // Indices of letters that were removed
+    id: string; // Unique ID
 }
 
 const getRandomInt = (min: number, max: number) => {
