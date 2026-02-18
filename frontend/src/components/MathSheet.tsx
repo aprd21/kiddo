@@ -13,17 +13,20 @@ import styles from './MathSheet.module.css';
 
 // Map digits to specific colors for the "Color Key" feature
 // Visual aid to help kids recognize patterns
+// Map digits to specific colors for the "Color Key" feature
+// Visual aid to help kids recognize patterns
+// Restricted palette: Red, Green, Blue, Orange, Black, Yellow
 const digitColors: Record<string, string> = {
-    '0': '#7f8c8d', // Gray
-    '1': '#2980b9', // Blue
-    '2': '#c0392b', // Red
-    '3': '#27ae60', // Green
-    '4': '#d35400', // Orange
-    '5': '#8e44ad', // Purple
-    '6': '#16a085', // Teal
-    '7': '#e84393', // Pink
-    '8': '#8d6e63', // Brown
-    '9': '#82ccdd', // Lime-Blueish
+    '0': '#FF0000', // Red
+    '1': '#00FF00', // Green
+    '2': '#0000FF', // Blue
+    '3': '#FF991C', // Orange
+    '4': '#000000', // Black
+    '5': '#FFFF00', // Yellow
+    '6': '#FF0000', // Red
+    '7': '#00FF00', // Green
+    '8': '#0000FF', // Blue
+    '9': '#FF991C', // Orange
 };
 
 /**

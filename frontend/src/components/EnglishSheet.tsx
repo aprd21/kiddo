@@ -13,15 +13,13 @@ import styles from './EnglishSheet.module.css';
 
 // Default Color Map for letters
 // Coloring helps with visual tracking and engagement
-const letterColors: Record<string, string> = {
-    'A': '#e74c3c', 'B': '#3498db', 'C': '#2ecc71', 'D': '#9b59b6',
-    'E': '#f1c40f', 'F': '#1abc9c', 'G': '#e67e22', 'H': '#34495e',
-    'I': '#16a085', 'J': '#27ae60', 'K': '#2980b9', 'L': '#8e44ad',
-    'M': '#2c3e50', 'N': '#f39c12', 'O': '#d35400', 'P': '#c0392b',
-    'Q': '#bdc3c7', 'R': '#7f8c8d', 'S': '#2c3e50', 'T': '#8e44ad',
-    'U': '#2980b9', 'V': '#27ae60', 'W': '#16a085', 'X': '#f39c12',
-    'Y': '#d35400', 'Z': '#c0392b'
-};
+// Palette: Red, Green, Blue, Orange, Black, Yellow
+const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF991C', '#000000', '#FFFF00'];
+const letterColors: Record<string, string> = {};
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+alphabet.split('').forEach((char, index) => {
+    letterColors[char] = colors[index % colors.length];
+});
 
 const ColorLetter: React.FC<{ value: string }> = ({ value }) => {
     return <span style={{ color: letterColors[value.toUpperCase()] || 'inherit' }}>{value}</span>;
