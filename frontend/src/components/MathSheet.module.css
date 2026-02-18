@@ -27,14 +27,19 @@
     flex: 1;
     width: 100%;
     gap: 20px;
+    /* Restored gap to prevent crowding */
+    align-content: start;
+    /* Don't stretch rows unnecessarily if few items */
 }
 
 .problemContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid transparent;
-    /* Helper for layout debugging if needed */
+    border: 1px transparent;
+    /* Keep transparent border for spacing logic */
+    padding: 10px;
+    /* Add padding around each problem */
 }
 
 .problemBox {
@@ -44,6 +49,9 @@
     /* Fallback if not loaded */
     text-align: right;
     line-height: 1.2;
+    padding-left: 1em;
+    /* Reserve space for the hanging operator */
+    position: relative;
 }
 
 .row {
@@ -59,6 +67,7 @@
 .operator {
     position: absolute;
     left: -0.8em;
+    /* Positioned relative to the number, but now we have padding in the box */
     top: 0;
 }
 

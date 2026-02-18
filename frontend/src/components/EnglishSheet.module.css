@@ -28,7 +28,9 @@
     display: grid;
     flex: 1;
     width: 100%;
-    gap: 20px;
+    gap: 10px;
+    /* Reduced gap */
+    align-content: start;
 }
 
 .problemContainer {

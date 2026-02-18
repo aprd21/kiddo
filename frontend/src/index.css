@@ -45,8 +45,10 @@ body {
   }
 
   @page {
-    margin: 10mm;
-    /* Ensure consistent print margins */
+    margin: 5mm;
+    /* Minimal margins to maximize print area */
+    size: auto;
+    /* Auto size */
   }
 
   .no-print {
@@ -74,10 +76,12 @@ body {
   margin-left: 300px;
   /* Sidebar width */
   width: calc(100% - 300px);
-  padding: 20px;
+  padding: 10px;
+  /* Reduced padding */
   min-height: 100vh;
   background-color: #eee;
   box-sizing: border-box;
+  /* overflow-x: hidden; removed to check if it fixes preview width perception */
 }
 
 /* Responsive for smaller screens */
