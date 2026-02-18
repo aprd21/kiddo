@@ -1,0 +1,23 @@
+.container {
+    width: 100%;
+    max-width: 210mm;
+    /* A4 width */
+    margin: 0 auto;
+    background: white;
+    min-height: 297mm;
+    /* A4 height */
+    padding: 1cm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+@media print {
+    .container {
+        width: 100%;
+        max-width: none;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        /* Let page margin handle it or keep minimal */
+    }
+}

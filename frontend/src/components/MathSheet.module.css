@@ -1,0 +1,78 @@
+.page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pageBreak {
+    break-before: page;
+    margin-top: 2cm;
+    /* Spacing for screen view, print handles break-before */
+}
+
+.legend {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    text-align: center;
+    border-bottom: 2px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.grid {
+    display: grid;
+    flex: 1;
+    width: 100%;
+    gap: 20px;
+}
+
+.problemContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid transparent;
+    /* Helper for layout debugging if needed */
+}
+
+.problemBox {
+    font-size: 2.5rem;
+    /* Large text for kids */
+    font-family: 'Fredoka One', cursive, sans-serif;
+    /* Fallback if not loaded */
+    text-align: right;
+    line-height: 1.2;
+}
+
+.row {
+    display: flex;
+    justify-content: flex-end;
+    /* width: 100%; */
+}
+
+.bottomRow {
+    position: relative;
+}
+
+.operator {
+    position: absolute;
+    left: -0.8em;
+    top: 0;
+}
+
+.line {
+    border-bottom: 4px solid black;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.answerBox {
+    height: 1.2em;
+    /* Space for writing answer */
+    margin-top: 5px;
+}
+
+@media print {
+    .pageBreak {
+        margin-top: 0;
+    }
+}

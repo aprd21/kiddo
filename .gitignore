@@ -1,0 +1,35 @@
+.env.*
+debug_segments
+filing_data/
+
+# SSL/TLS Certificates (never commit private keys!)
+certs/
+**/*.pem
+**/*.key
+**/*.crt
+**/*.csr
+**/*.p12
+**/*.pfx
+
+# Local HTTPS development
+localhost*.pem
+127.0.0.1*.pem
+test_db.sqlite3
+test_db.sqlite3-journal
+test_media/
+
+# ==============================================================================
+# Infisical
+# ==============================================================================
+# Infisical configuration and tokens
+.infisical.json
+infisical-*.log
+
+# Emergency backup files (if created)
+.env.emergency
+secrets-backup-*.env
+secrets-backup-*.env.gpg
+
+# Keep example files
+!.env.example
+!.env.infisical.example
